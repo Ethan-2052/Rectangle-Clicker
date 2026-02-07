@@ -22,7 +22,6 @@ public class App extends Application {
     double CPS = 0; //CPS stands for currency per second
     double robobNumber = 0;
     double robobCost = 10;
-    String robobCostCommaVersion = "";
     double lemonNumber = 0;
     double lemonCost = 100;
     boolean factoryUnlock = false;
@@ -108,11 +107,10 @@ public class App extends Application {
           label2.setText("You have " + currency + dollarOrDollars);
           robobNumber++;
           robobCost = Math.floor(robobCost*1.5);
-          upgrade1.setText("robobs now cost $" + toComma(robobCost, robobCostCommaVersion));   
+          upgrade1.setText("robobs now cost $" + robobCost + "        " + toComma(robobCost));   
           CPS += 1;
           label3.setText("                       Dollars per second: " + CPS);
         }
-        upgrade1.setStyle("-fx-background-color: FF0000;");
       });
 
       //lemonade stand button pressed
@@ -258,16 +256,21 @@ public class App extends Application {
       timeline.play();
    }
 
-   public static String toComma(double cost, String output) {
-    String itemPrice = Double.toString(cost);
-    String commaVersion = output;
-    if(itemPrice.length() >= 4 && itemPrice.length() < 7){
+   public static String toComma(double cost) {
+    int itemPriceInt = (int) cost; //turns cost into an int (so that there are no decimals)
+    String itemPrice = Integer.toString(itemPriceInt); //turns itemPriceInt into a string to we can check the length
+    String commaVersion = Integer.toString(itemPriceInt);
+    if(itemPrice.length() >= 4 && itemPrice.length() <=6 ){
       if(itemPrice.length() == 4){
-        commaVersion = "" + itemPrice.charAt(0) + "," + itemPrice.charAt(1) + itemPrice.charAt(2) + itemPrice.charAt(3);
+        commaVersion = itemPrice.charAt(0) + "," + itemPrice.charAt(1) + itemPrice.charAt(2) + itemPrice.charAt(3);
       }else if(itemPrice.length() == 5) {
-        commaVersion = "bob";
-      }else{
-        commaVersion = "bob";
+        commaVersion = itemPrice.charAt(0) + itemPrice.charAt(1) + "," + itemPrice.charAt(2) + itemPrice.charAt(3) + itemPrice.charAt(4);
+      }else if(itemPrice.length() == 6){
+        commaVersion = itemPrice.charAt(0) + itemPrice.charAt(1) + itemPrice.charAt(2) + "," + itemPrice.charAt(3) + itemPrice.charAt(4) + itemPrice.charAt(5);
+      }
+    } else if(itemPrice.length()>=7 && itemPrice.length() < 10){
+      if(itemPrice.length() == 7){
+        commaVersion = itemPrice.charAt(0) + "." + itemPrice.charAt(1) + itemPrice.charAt(2) + " million";
       }
     }
     return commaVersion;
