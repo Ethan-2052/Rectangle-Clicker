@@ -22,7 +22,6 @@ public class App extends Application {
     double CPS = 0; //CPS stands for currency per second
     double robobNumber = 0;
     double robobCost = 10;
-    String robobCostString = "";
     String robobCostCommaVersion = "";
     double lemonNumber = 0;
     double lemonCost = 100;
@@ -87,7 +86,7 @@ public class App extends Application {
       //rectangle pressed
 
       button1.setOnAction(e -> {
-        currency++;
+        currency += 10000;
         if(currency == 1){
             dollarOrDollars = " dollar";
         } else {
@@ -106,17 +105,14 @@ public class App extends Application {
           } else {
             dollarOrDollars = " dollars";
           };
-          robobCostString = Double.toString(robobCost);
-          if(robobCostString.length()>=4){
-            robobCostCommaVersion = "" + robobCostString.charAt(robobCostString.length()-1);
-          }
           label2.setText("You have " + currency + dollarOrDollars);
           robobNumber++;
           robobCost = Math.floor(robobCost*1.5);
-          upgrade1.setText("robobs now cost $" + robobCost);   
+          upgrade1.setText("robobs now cost $" + toComma(robobCost, robobCostCommaVersion));   
           CPS += 1;
           label3.setText("                       Dollars per second: " + CPS);
         }
+        upgrade1.setStyle("-fx-background-color: FF0000;");
       });
 
       //lemonade stand button pressed
@@ -262,7 +258,20 @@ public class App extends Application {
       timeline.play();
    }
 
-
+   public static String toComma(double cost, String output) {
+    String itemPrice = Double.toString(cost);
+    String commaVersion = output;
+    if(itemPrice.length() >= 4 && itemPrice.length() < 7){
+      if(itemPrice.length() == 4){
+        commaVersion = "" + itemPrice.charAt(0) + "," + itemPrice.charAt(1) + itemPrice.charAt(2) + itemPrice.charAt(3);
+      }else if(itemPrice.length() == 5) {
+        commaVersion = "bob";
+      }else{
+        commaVersion = "bob";
+      }
+    }
+    return commaVersion;
+}
    public static void main(String[] args) {
        launch(args);
    }
